@@ -1,3 +1,3 @@
-# switches
+# Scaled
 
-a maths-based logic puzzle.
+maths-based logic puzzles.
