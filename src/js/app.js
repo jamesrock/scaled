@@ -9,7 +9,8 @@ import {
   random,
   makeContainer,
   makeNode,
-  makeArray
+  makeArray,
+  makeMap
 } from '@jamesrock/rockjs';
 import interact from 'interactjs';
 
@@ -18,21 +19,13 @@ setDocumentHeight();
 const root = document.documentElement;
 const app = document.querySelector('#app');
 const COUNT = 9;
-const yGap = 5;
-const xGap = 5;
+const yGap = 10;
+const xGap = 10;
 const itemWidth = 100;
 const itemHeight = 50;
 
 root.style.setProperty('--item-width', `${itemWidth}px`);
 root.style.setProperty('--item-height', `${itemHeight}px`);
-
-const makeIndex = (items, key = 'id') => {
-  const out = {};
-  items.forEach((item) => {
-    out[item[key]] = item;
-  });
-  return out;
-};
 
 const xPositions = [0, 1, 2, 0, 1, 2, 0, 1, 2].map((index) => {
   return (index * (itemWidth + xGap));
@@ -55,7 +48,7 @@ class Item extends DisplayObject {
     this.weight = weight;
     this.node = makeNode('div', 'item');
 
-    this.node.innerHTML = `${weight}<span class="unit">kg</span>`;
+    // this.node.innerHTML = `${weight}<span class="unit">kg</span>`;
 
     this.resetPosition();
     this.setProp('id', this.id);
@@ -102,7 +95,7 @@ const renderTotal = () => {
       showGameOverScreen();
     }, 500);
   };
-  display.innerHTML = `<div class="display-inner"><span class="sign">${total===0 ? '&nbsp;' : (total<0 ? '&#9650;' : '&#9660;')}</span><span>${formatNumber(total<0 ? total*-1 : total)}</span><span class="unit">kg</span></div>`;
+  display.innerHTML = `<div class="display-inner"><span class="sign">${total===0 ? '&nbsp;' : (total<0 ? '&#9650;' : '&#9660;')}</span><span>${formatNumber(total<0 ? total*-1 : total)}</span><span class="unit">g</span></div>`;
 };
 
 const showGameOverScreen = () => {
@@ -193,7 +186,7 @@ const newGame = () => {
   settings = generateSettings();
 
   items = makeArray(COUNT, (a, id) => new Item(id, settings.multipliers[id]));
-  itemMap = makeIndex(items);
+  itemMap = makeMap(items);
 
   console.log(items);
   console.log(settings);
